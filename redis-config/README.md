@@ -1,6 +1,6 @@
 # Redis Configuration and Setup
 
-This directory contains comprehensive Redis configuration files and scripts for LibreChat development and testing, supporting both cluster and single-node setups with optional TLS encryption.
+This directory contains comprehensive Redis configuration files and scripts for 玄鉴 (XUAN JIAN) development and testing, supporting both cluster and single-node setups with optional TLS encryption.
 
 ## Supported Configurations
 
@@ -223,7 +223,7 @@ redis-cli --tls --cacert certs/ca-cert.pem -p 6380 get test_tls
 ### 4. Test Backend Integration
 
 ```bash
-# Start LibreChat backend
+# Start 玄鉴 backend
 npm run backend
 
 # Look for these success indicators in logs:
@@ -404,5 +404,5 @@ For Redis-specific issues:
 - [Redis Documentation](https://redis.io/docs/)
 - [Redis Cluster Tutorial](https://redis.io/docs/manual/scaling/)
 
-For LibreChat integration:
-- [LibreChat Documentation](https://github.com/danny-avila/LibreChat)
+For 玄鉴 integration:
+- [XUAN JIAN Documentation](https://github.com/danny-avila/LibreChat)

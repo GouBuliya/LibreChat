@@ -1136,7 +1136,7 @@ ${convo}
       if (this.useOpenRouter) {
         opts.defaultHeaders = {
           'HTTP-Referer': 'https://librechat.ai',
-          'X-Title': 'LibreChat',
+          'X-Title': 'XUAN JIAN',
         };
       }
 

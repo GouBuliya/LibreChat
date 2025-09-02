@@ -147,7 +147,7 @@ export function getOpenAIConfig(
     configOptions.defaultHeaders = Object.assign(
       {
         'HTTP-Referer': 'https://librechat.ai',
-        'X-Title': 'LibreChat',
+        'X-Title': 'XUAN JIAN',
       },
       headers,
     );

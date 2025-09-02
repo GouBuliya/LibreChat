@@ -47,6 +47,8 @@ const SidePanel = ({
   const [isHovering, setIsHovering] = useState(false);
   const [newUser, setNewUser] = useLocalStorage('newUser', true);
   const { data: endpointsConfig = {} as TEndpointsConfig } = useGetEndpointsQuery();
+  // Make right side panel persistent (always visible)
+  const stickyPanel = true;
 
   const isSmallScreen = useMediaQuery('(max-width: 767px)');
 
@@ -72,6 +74,9 @@ const SidePanel = ({
   );
 
   const hidePanel = useCallback(() => {
+    if (stickyPanel) {
+      return;
+    }
     setIsCollapsed(true);
     setCollapsedSize(0);
     setMinSize(defaultMinSize);
@@ -90,6 +95,9 @@ const SidePanel = ({
   });
 
   const toggleNavVisible = useCallback(() => {
+    if (stickyPanel) {
+      return;
+    }
     if (newUser) {
       setNewUser(false);
     }
@@ -121,26 +129,28 @@ const SidePanel = ({
 
   return (
     <>
-      <div
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-        className="relative flex w-px items-center justify-center"
-      >
-        <NavToggle
-          navVisible={!isCollapsed}
-          isHovering={isHovering}
-          onToggle={toggleNavVisible}
-          setIsHovering={setIsHovering}
-          className={cn(
-            'fixed top-1/2',
-            (isCollapsed && (minSize === 0 || collapsedSize === 0)) || fullCollapse
-              ? 'mr-9'
-              : 'mr-16',
-          )}
-          translateX={false}
-          side="right"
-        />
-      </div>
+      {!stickyPanel && (
+        <div
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+          className="relative flex w-px items-center justify-center"
+        >
+          <NavToggle
+            navVisible={!isCollapsed}
+            isHovering={isHovering}
+            onToggle={toggleNavVisible}
+            setIsHovering={setIsHovering}
+            className={cn(
+              'fixed top-1/2',
+              (isCollapsed && (minSize === 0 || collapsedSize === 0)) || fullCollapse
+                ? 'mr-9'
+                : 'mr-16',
+            )}
+            translateX={false}
+            side="right"
+          />
+        </div>
+      )}
       {(!isCollapsed || minSize > 0) && !isSmallScreen && !fullCollapse && (
         <ResizableHandleAlt withHandle className="bg-transparent text-text-primary" />
       )}

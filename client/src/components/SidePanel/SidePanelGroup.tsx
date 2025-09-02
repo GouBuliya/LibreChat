@@ -43,12 +43,18 @@ const SidePanelGroup = memo(
 
     const panelRef = useRef<ImperativePanelHandle>(null);
     const [minSize, setMinSize] = useState(defaultMinSize);
-    const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
-    const [fullCollapse, setFullCollapse] = useState(fullPanelCollapse);
+    // Keep right side panel persistent
+    const stickyPanel = true;
+    const [isCollapsed, setIsCollapsed] = useState(stickyPanel ? false : defaultCollapsed);
+    const [fullCollapse, setFullCollapse] = useState(stickyPanel ? false : fullPanelCollapse);
     const [collapsedSize, setCollapsedSize] = useState(navCollapsedSize);
 
     const isSmallScreen = useMediaQuery('(max-width: 767px)');
     const hideSidePanel = useRecoilValue(store.hideSidePanel);
+    const shouldRenderSidePanel = useMemo(
+      () => (stickyPanel ? true : !hideSidePanel && interfaceConfig.sidePanel === true),
+      [stickyPanel, hideSidePanel, interfaceConfig.sidePanel],
+    );
 
     const calculateLayout = useCallback(() => {
       if (artifacts == null) {
@@ -84,8 +90,8 @@ const SidePanelGroup = memo(
         panelRef.current?.collapse();
         return;
       } else {
-        setIsCollapsed(defaultCollapsed);
-        setCollapsedSize(navCollapsedSize);
+        setIsCollapsed(stickyPanel ? false : defaultCollapsed);
+        setCollapsedSize(stickyPanel ? navCollapsedSize : navCollapsedSize);
         setMinSize(defaultMinSize);
       }
     }, [isSmallScreen, defaultCollapsed, navCollapsedSize, fullPanelCollapse]);
@@ -132,7 +138,7 @@ const SidePanelGroup = memo(
               </ResizablePanel>
             </>
           )}
-          {!hideSidePanel && interfaceConfig.sidePanel === true && (
+          {shouldRenderSidePanel && (
             <SidePanel
               panelRef={panelRef}
               minSize={minSize}
@@ -149,11 +155,13 @@ const SidePanelGroup = memo(
             />
           )}
         </ResizablePanelGroup>
-        <button
-          aria-label="Close right side panel"
-          className={`nav-mask ${!isCollapsed ? 'active' : ''}`}
-          onClick={handleClosePanel}
-        />
+        {!stickyPanel && (
+          <button
+            aria-label="Close right side panel"
+            className={`nav-mask ${!isCollapsed ? 'active' : ''}`}
+            onClick={handleClosePanel}
+          />
+        )}
       </>
     );
   },

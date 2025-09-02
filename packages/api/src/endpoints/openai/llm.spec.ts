@@ -115,7 +115,7 @@ describe('getOpenAIConfig', () => {
     expect(result.configOptions?.baseURL).toBe(reverseProxyUrl);
     expect(result.configOptions?.defaultHeaders).toMatchObject({
       'HTTP-Referer': 'https://librechat.ai',
-      'X-Title': 'LibreChat',
+      'X-Title': 'XUAN JIAN',
     });
     expect(result.llmConfig.include_reasoning).toBe(true);
     expect(result.provider).toBe('openrouter');

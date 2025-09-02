@@ -824,7 +824,7 @@ describe('Environment Variable Extraction (MCP)', () => {
         headers: {
           Authorization: '{{PAT_TOKEN}}',
           'Content-Type': 'application/json',
-          'User-Agent': 'LibreChat-MCP-Client',
+          'User-Agent': 'XUAN-JIAN-MCP-Client',
         },
       };
 
@@ -833,7 +833,7 @@ describe('Environment Variable Extraction (MCP)', () => {
       expect('headers' in result && result.headers).toEqual({
         Authorization: 'ghp_1234567890abcdef1234567890abcdef12345678',
         'Content-Type': 'application/json',
-        'User-Agent': 'LibreChat-MCP-Client',
+        'User-Agent': 'XUAN-JIAN-MCP-Client',
       });
       expect('url' in result && result.url).toBe('https://api.githubcopilot.com/mcp/');
       expect(result.type).toBe('streamable-http');

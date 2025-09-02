@@ -1,7 +1,7 @@
 {
   "name": "librechat-data-provider",
   "version": "0.8.006",
-  "description": "data services for librechat apps",
+  "description": "data services for XUAN JIAN apps",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "./dist/types/index.d.ts",

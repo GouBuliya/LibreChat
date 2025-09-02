@@ -51,7 +51,7 @@ function checkVariables() {
     logger.info(`\u200B
 
     For your convenience, use this tool to generate your own secret values:
-    https://www.librechat.ai/toolkit/creds_generator
+    https://0.0.0.0/toolkit/creds_generator
 
     \u200B`);
   }
@@ -116,7 +116,7 @@ Latest version: ${Constants.CONFIG_VERSION}
 
       Check out the Config changelogs for the latest options and features added.
 
-      https://www.librechat.ai/changelog\n\n`,
+      https://0.0.0.0/changelog\n\n`,
     );
   }
 }
@@ -135,7 +135,7 @@ function checkPasswordReset() {
       
       Please configure email service for secure password reset functionality.
       
-      https://www.librechat.ai/docs/configuration/authentication/email
+      https://0.0.0.0/docs/configuration/authentication/email
 
       ❗❗❗`,
     );
@@ -181,7 +181,7 @@ function checkWebSearchConfig(webSearchConfig) {
           
           Then set the actual API key in your .env file or environment variables.
           
-          More info: https://www.librechat.ai/docs/configuration/librechat_yaml/web_search`,
+          More info: https://0.0.0.0/docs/configuration/librechat_yaml/web_search`,
         );
       }
     }

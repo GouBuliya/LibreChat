@@ -1,6 +1,6 @@
-# LibreChat Data Schemas Package
+# 玄鉴 Data Schemas Package
 
-This package provides the database schemas, models, types, and methods for LibreChat using Mongoose ODM.
+This package provides the database schemas, models, types, and methods for XUAN JIAN (玄鉴) using Mongoose ODM.
 
 ## 📁 Package Structure
 
