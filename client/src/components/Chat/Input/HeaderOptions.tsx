@@ -17,8 +17,10 @@ import store from '~/store';
 
 export default function HeaderOptions({
   interfaceConfig,
+  hasPersistentSettings = false,
 }: {
   interfaceConfig?: Partial<TInterfaceConfig>;
+  hasPersistentSettings?: boolean;
 }) {
   const { data: endpointsConfig } = useGetEndpointsQuery();
 
@@ -78,7 +80,8 @@ export default function HeaderOptions({
             <div className="z-[61] flex w-full items-center justify-center gap-2">
               {!noSettings[endpoint] &&
                 interfaceConfig?.parameters === true &&
-                paramEndpoint === false && (
+                paramEndpoint === false && 
+                !hasPersistentSettings && (
                   <TooltipAnchor
                     id="parameters-button"
                     aria-label={localize('com_ui_model_parameters')}
@@ -93,7 +96,7 @@ export default function HeaderOptions({
                   </TooltipAnchor>
                 )}
             </div>
-            {interfaceConfig?.parameters === true && paramEndpoint === false && (
+            {interfaceConfig?.parameters === true && paramEndpoint === false && !hasPersistentSettings && (
               <OptionsPopover
                 visible={showPopover}
                 saveAsPreset={saveAsPreset}

@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { Spinner } from '@librechat/client';
@@ -15,6 +15,7 @@ import Presentation from './Presentation';
 import ChatForm from './Input/ChatForm';
 import Landing from './Landing';
 import Header from './Header';
+import { PersistentSettingsPanel } from './Settings';
 import { cn } from '~/utils';
 import store from '~/store';
 
@@ -33,6 +34,17 @@ function ChatView({ index = 0 }: { index?: number }) {
   const rootSubmission = useRecoilValue(store.submissionByIndex(index));
   const addedSubmission = useRecoilValue(store.submissionByIndex(index + 1));
   const centerFormOnLanding = useRecoilValue(store.centerFormOnLanding);
+
+  // Persistent settings panel state
+  const [isSettingsPanelVisible, setIsSettingsPanelVisible] = useState(() => {
+    const saved = localStorage.getItem('persistentSettingsPanelVisible');
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  // Save settings panel visibility to localStorage
+  useEffect(() => {
+    localStorage.setItem('persistentSettingsPanelVisible', JSON.stringify(isSettingsPanelVisible));
+  }, [isSettingsPanelVisible]);
 
   const fileMap = useFileMapContext();
 
@@ -78,29 +90,43 @@ function ChatView({ index = 0 }: { index?: number }) {
       <ChatContext.Provider value={chatHelpers}>
         <AddedChatContext.Provider value={addedChatHelpers}>
           <Presentation>
-            <div className="flex h-full w-full flex-col">
-              {!isLoading && <Header />}
-              <>
-                <div
-                  className={cn(
-                    'flex flex-col',
-                    isLandingPage
-                      ? 'flex-1 items-center justify-end sm:justify-center'
-                      : 'h-full overflow-y-auto',
-                  )}
-                >
-                  {content}
+            <div className="flex h-full w-full">
+              {/* Main Chat Area */}
+              <div 
+                className={cn(
+                  'flex h-full flex-col transition-all duration-200',
+                  isSettingsPanelVisible ? 'w-[calc(100%-20rem)]' : 'w-full'
+                )}
+              >
+                {!isLoading && <Header />}
+                <>
                   <div
                     className={cn(
-                      'w-full',
-                      isLandingPage && 'max-w-3xl transition-all duration-200 xl:max-w-4xl',
+                      'flex flex-col',
+                      isLandingPage
+                        ? 'flex-1 items-center justify-end sm:justify-center'
+                        : 'h-full overflow-y-auto',
                     )}
                   >
-                    <ChatForm index={index} />
-                    {isLandingPage ? <ConversationStarters /> : null}
+                    {content}
+                    <div
+                      className={cn(
+                        'w-full',
+                        isLandingPage && 'max-w-3xl transition-all duration-200 xl:max-w-4xl',
+                      )}
+                    >
+                      <ChatForm index={index} />
+                      {isLandingPage ? <ConversationStarters /> : null}
+                    </div>
                   </div>
-                </div>
-              </>
+                </>
+              </div>
+
+              {/* Persistent Settings Panel */}
+              <PersistentSettingsPanel
+                isVisible={isSettingsPanelVisible}
+                setIsVisible={setIsSettingsPanelVisible}
+              />
             </div>
           </Presentation>
         </AddedChatContext.Provider>
