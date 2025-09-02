@@ -96,6 +96,36 @@ const SidePanelGroup = memo(
       }
     }, [isSmallScreen, defaultCollapsed, navCollapsedSize, fullPanelCollapse]);
 
+    // Allow external components to open/close the right side panel (e.g., mobile button)
+    useEffect(() => {
+      const openHandler: EventListener = () => {
+        setIsCollapsed(false);
+        setFullCollapse(false);
+        setCollapsedSize(navCollapsedSize);
+        setMinSize(defaultMinSize);
+        localStorage.setItem('fullPanelCollapse', 'false');
+        localStorage.setItem('react-resizable-panels:collapsed', 'false');
+        panelRef.current?.expand?.();
+      };
+
+      const closeHandler: EventListener = () => {
+        setIsCollapsed(true);
+        setFullCollapse(true);
+        setCollapsedSize(0);
+        setMinSize(defaultMinSize);
+        localStorage.setItem('fullPanelCollapse', 'true');
+        localStorage.setItem('react-resizable-panels:collapsed', 'true');
+        panelRef.current?.collapse?.();
+      };
+
+      window.addEventListener('open-right-panel', openHandler);
+      window.addEventListener('close-right-panel', closeHandler);
+      return () => {
+        window.removeEventListener('open-right-panel', openHandler);
+        window.removeEventListener('close-right-panel', closeHandler);
+      };
+    }, [navCollapsedSize]);
+
     const minSizeMain = useMemo(() => (artifacts != null ? 15 : 30), [artifacts]);
 
     /** Memoized close button handler to prevent re-creating it */
