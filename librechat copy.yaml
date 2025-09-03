@@ -2,7 +2,7 @@
 # https://0.0.0.0/docs/configuration/librechat_yaml
 
 # Configuration version (required)
-version: 1.2.1
+version: "1.0"
 
 # Cache settings: Set to true to enable caching
 cache: true
@@ -28,59 +28,21 @@ cache: true
 # Custom interface configuration
 interface:
   customWelcome: '欢迎使用玄鉴！'
-  # 设置为空以隐藏底部小字
-  customFooter: ''
   # Enable/disable file search as a chatarea selection (default: true)
   # Note: This setting does not disable the Agents File Search Capability.
   # To disable the Agents Capability, see the Agents Endpoint configuration instead.
   fileSearch: true
-  # Privacy policy settings
+  # Privacy policy settings - 禁用
   privacyPolicy:
     externalUrl: ''
-    openNewTab: true
+    openNewTab: false
 
-  # Terms of service
+  # Terms of service - 禁用
   termsOfService:
     externalUrl: ''
-    openNewTab: true
-    modalAcceptance: true
-    modalTitle: 'Terms of Service for XUAN JIAN'
-    modalContent: |
-      # Terms and Conditions for XUAN JIAN
+    openNewTab: false
+    modalAcceptance: false
 
-      *Effective Date: February 18, 2024*
-
-      Welcome to LibreChat, the informational website for the open-source AI chat platform, available at https://librechat.ai. These Terms of Service ("Terms") govern your use of our website and the services we offer. By accessing or using the Website, you agree to be bound by these Terms and our Privacy Policy, accessible at https://librechat.ai//privacy.
-
-      ## 1. Ownership
-
-      Upon purchasing a package from LibreChat, you are granted the right to download and use the code for accessing an admin panel for LibreChat. While you own the downloaded code, you are expressly prohibited from reselling, redistributing, or otherwise transferring the code to third parties without explicit permission from LibreChat.
-
-      ## 2. User Data
-
-      We collect personal data, such as your name, email address, and payment information, as described in our Privacy Policy. This information is collected to provide and improve our services, process transactions, and communicate with you.
-
-      ## 3. Non-Personal Data Collection
-
-      The Website uses cookies to enhance user experience, analyze site usage, and facilitate certain functionalities. By using the Website, you consent to the use of cookies in accordance with our Privacy Policy.
-
-      ## 4. Use of the Website
-
-      You agree to use the Website only for lawful purposes and in a manner that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the Website. Prohibited behavior includes harassing or causing distress or inconvenience to any person, transmitting obscene or offensive content, or disrupting the normal flow of dialogue within the Website.
-
-      ## 5. Governing Law
-
-      These Terms shall be governed by and construed in accordance with the laws of the United States, without giving effect to any principles of conflicts of law.
-
-      ## 6. Changes to the Terms
-
-      We reserve the right to modify these Terms at any time. We will notify users of any changes by email. Your continued use of the Website after such changes have been notified will constitute your consent to such changes.
-
-      ## 7. Contact Information
-
-      If you have any questions about these Terms, please contact us at contact@librechat.ai.
-
-      By using the Website, you acknowledge that you have read these Terms of Service and agree to be bound by them.
 
   endpointsMenu: true
   modelSelect: true
@@ -100,6 +62,9 @@ interface:
   fileCitations: true
   # Temporary chat retention period in hours (default: 720, min: 1, max: 8760)
   # temporaryChatRetention: 1
+  customFooter: ''
+
+# 设置为空以隐藏底部小字（放在 interface 下）
 
 # Example Cloudflare turnstile (optional)
 #turnstile:
@@ -217,23 +182,23 @@ endpoints:
   #   # (optional) Agent Capabilities available to all users. Omit the ones you wish to exclude. Defaults to list below.
   #   capabilities: ["execute_code", "file_search", "actions", "tools"]
   custom:
-    # Groq Example
-    - name: 'groq'
-      apiKey: '${GROQ_API_KEY}'
-      baseURL: 'https://api.groq.com/openai/v1/'
-      models:
-        default:
-          [
-            'llama3-70b-8192',
-            'llama3-8b-8192',
-            'llama2-70b-4096',
-            'mixtral-8x7b-32768',
-            'gemma-7b-it',
-          ]
-        fetch: false
-      titleConvo: true
-      titleModel: 'mixtral-8x7b-32768'
-      modelDisplayLabel: 'groq'
+    # # Groq Example
+    # - name: 'groq'
+    #   apiKey: '${GROQ_API_KEY}'
+    #   baseURL: 'https://api.groq.com/openai/v1/'
+    #   models:
+    #     default:
+    #       [
+    #         'llama3-70b-8192',
+    #         'llama3-8b-8192',
+    #         'llama2-70b-4096',
+    #         'mixtral-8x7b-32768',
+    #         'gemma-7b-it',
+    #       ]
+    #     fetch: false
+    #   titleConvo: true
+    #   titleModel: 'mixtral-8x7b-32768'
+    #   modelDisplayLabel: 'groq'
 
     # Mistral AI Example
     - name: 'Mistral' # Unique name for the endpoint
@@ -249,71 +214,16 @@ endpoints:
         # Fetch option: Set to true to fetch models from API.
         fetch: true # Defaults to false.
 
-      # Optional configurations
-
-      # Title Conversation setting
-      titleConvo: true # Set to true to enable title conversation
-
-      # Title Method: Choose between "completion" or "functions".
-      # titleMethod: "completion"  # Defaults to "completion" if omitted.
-
-      # Title Model: Specify the model to use for titles.
-      titleModel: 'mistral-tiny' # Defaults to "gpt-3.5-turbo" if omitted.
-
-      # Summarize setting: Set to true to enable summarization.
-      # summarize: false
-
-      # Summary Model: Specify the model to use if summarization is enabled.
-      # summaryModel: "mistral-tiny"  # Defaults to "gpt-3.5-turbo" if omitted.
-
-      # Force Prompt setting: If true, sends a `prompt` parameter instead of `messages`.
-      # forcePrompt: false
-
-      # The label displayed for the AI model in messages.
-      modelDisplayLabel: 'Mistral' # Default is "AI" when not set.
-
-      # Add additional parameters to the request. Default params will be overwritten.
-      # addParams:
-      # safe_prompt: true # This field is specific to Mistral AI: https://docs.mistral.ai/api/
-
-      # Drop Default params parameters from the request. See default params in guide linked below.
-      # NOTE: For Mistral, it is necessary to drop the following parameters or you will encounter a 422 Error:
+    - name: 'ZhiHui'
+      apiKey: 'sk-vsMu0iewQGZmdsQJTtgFnofrcdVUxBzqAxsin6uXvKTQ8M4H'
+      baseURL: 'https://cc.zhihuiapi.top/v1'
+      models:
+        default: ['claude-sonnet-4-20250514']
+        fetch: false
+      titleConvo: true
+      titleModel: 'claude-sonnet-4-20250514'
+      modelDisplayLabel: 'ZhiHui'
       dropParams: ['stop', 'user', 'frequency_penalty', 'presence_penalty']
-
-    # OpenRouter Example
-    - name: 'OpenRouter'
-      # For `apiKey` and `baseURL`, you can use environment variables that you define.
-      # recommended environment variables:
-      apiKey: '${OPENROUTER_KEY}'
-      baseURL: 'https://openrouter.ai/api/v1'
-      headers:
-          x-librechat-body-parentmessageid: '{{LIBRECHAT_BODY_PARENTMESSAGEID}}'
-      models:
-        default: ['meta-llama/llama-3-70b-instruct']
-        fetch: true
-      titleConvo: true
-      titleModel: 'meta-llama/llama-3-70b-instruct'
-      # Recommended: Drop the stop parameter from the request as Openrouter models use a variety of stop tokens.
-      dropParams: ['stop']
-      modelDisplayLabel: 'OpenRouter'
-
-    # Portkey AI Example
-    - name: 'Portkey'
-      apiKey: 'dummy'
-      baseURL: 'https://api.portkey.ai/v1'
-      headers:
-        x-portkey-api-key: '${PORTKEY_API_KEY}'
-        x-portkey-virtual-key: '${PORTKEY_OPENAI_VIRTUAL_KEY}'
-      models:
-        default: ['gpt-4o-mini', 'gpt-4o', 'chatgpt-4o-latest']
-        fetch: true
-      titleConvo: true
-      titleModel: 'current_model'
-      summarize: false
-      summaryModel: 'current_model'
-      forcePrompt: false
-      modelDisplayLabel: 'Portkey'
-      iconURL: https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/rjqy7ghvjoiu4cd1xjbf
 # fileConfig:
 #   endpoints:
 #     assistants:
